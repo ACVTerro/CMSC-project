@@ -11,7 +11,7 @@ class LoginPage(ctk.CTkFrame):
         container = ctk.CTkFrame(self, fg_color="#E4D6E7", width=400, height=300, corner_radius=10)
         container.place(relx=0.5, rely=0.5, anchor="center")
 
-        ctk.CTkLabel(container, text="Login", font=("Arial", 28), text_color="#3E5C6B").pack(pady=20)
+        ctk.CTkLabel(container, text="Login", font=("Arial", 28), text_color="#17313E").pack(pady=20)
 
         ctk.CTkLabel(container, text="Username", text_color="#3E5C6B").pack(pady=(10,5))
         self.username_entry = ctk.CTkEntry(container, fg_color="#E7E7E7", border_width=0.4, border_color="#8394A0", placeholder_text="Enter username", text_color="#8394A0")

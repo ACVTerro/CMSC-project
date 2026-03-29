@@ -6,7 +6,7 @@ class Sidebar(ctk.CTkFrame):
     def __init__(self, parent, show_page):
         super().__init__(parent, width=200, fg_color="#CDC6CE")
 
-        ctk.CTkLabel(self, text="My App", font=("Arial", 22), text_color="#3E5C6B").pack(pady=20)
+        ctk.CTkLabel(self, text="Smart Task", font=("Arial", 22), text_color="#17313E").pack(pady=20)
 
         ctk.CTkButton(
             self, fg_color="#F8EAFA", hover_color="#97A7B2", text="Dashboard", text_color="#3E5C6B",
@@ -43,7 +43,7 @@ class Sidebar(ctk.CTkFrame):
         popup.geometry("400x150")
         popup.grab_set()  # Make popup modal
 
-        ctk.CTkLabel(popup, text_color="#3E5C6B", text="Are you sure you want to logout?", font=("Arial", 14)).pack(pady=20, padx=10)
+        ctk.CTkLabel(popup, text_color="#17313E", text="Are you sure you want to logout?", font=("Arial", 14)).pack(pady=20, padx=10)
 
         # Buttons frame
         btn_frame = ctk.CTkFrame(popup, fg_color="transparent")

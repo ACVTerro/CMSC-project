@@ -9,7 +9,7 @@ class DashboardPage(ctk.CTkFrame):
         header_frame = ctk.CTkFrame(
             self,
             corner_radius=0,          # straight edges for full width
-            fg_color="#97A7B2"        # header background
+            fg_color="#8EAABD"        # header background
         )
         header_frame.pack(side="top", fill="x")  # fills entire top width
 

@@ -8,7 +8,7 @@ class TasksPage(ctk.CTkFrame):
     PRIORITY_ORDER = {"High": 1, "Medium": 2, "Low": 3}
 
     def __init__(self, parent, app=None):
-        super().__init__(parent, fg_color="violet")
+        super().__init__(parent, fg_color="#E4D6E7")
         self.app = app
         self.pack(fill="both", expand=True, padx=20, pady=20)
 
@@ -16,7 +16,7 @@ class TasksPage(ctk.CTkFrame):
         self.headers = ["Task", "Priority", "Due Date", "Subject", "Grade", "Actions"]
         self.column_widths = [300, 100, 100, 150, 80, 100]
 
-        header_frame = ctk.CTkFrame(self, corner_radius=0, fg_color="#1E90FF")
+        header_frame = ctk.CTkFrame(self, corner_radius=0, fg_color="#8EAABD")
         header_frame.pack(side="top", fill="x")
         header_frame.configure(height=80)
 
@@ -25,32 +25,63 @@ class TasksPage(ctk.CTkFrame):
         )
         header_label.place(relx=0.05, rely=0.5, anchor="w")
 
-        create_task_btn = ctk.CTkButton(header_frame, text="Create Task", command=self.open_create_task_popup)
+        create_task_btn = ctk.CTkButton(
+            header_frame,
+            text="Create Task",
+            command=self.open_create_task_popup,
+            fg_color="#536D7F",
+            hover_color="#3F5C6B",
+            text_color="#FFFFFF"
+        )
+        create_task_btn.bind("<Enter>", self)
+        create_task_btn.bind("<Leave>", self)
         create_task_btn.place(relx=0.95, rely=0.5, anchor="e")
 
         # ===== Algorithm Selection =====
-        algo_frame = ctk.CTkFrame(self, fg_color="violet")
+        algo_frame = ctk.CTkFrame(self, fg_color="transparent")
         algo_frame.pack(fill="x", pady=10)
-        ctk.CTkLabel(algo_frame, text="Choose Algorithm:").pack(side="left", padx=10)
+        ctk.CTkLabel(algo_frame, text="Choose Algorithm:", text_color="#17313E").pack(side="left", padx=10)
         self.algo_var = ctk.StringVar(value="Greedy")
-        algo_dropdown = ctk.CTkOptionMenu(algo_frame, values=["Greedy", "Insertion", "Bubble"], variable=self.algo_var)
+        algo_dropdown = ctk.CTkOptionMenu(algo_frame, fg_color="#536D7F", text_color="white", values=["Greedy", "Insertion", "Bubble"], variable=self.algo_var)
         algo_dropdown.pack(side="left", padx=5)
-        ctk.CTkButton(algo_frame, text="Randomize Tasks", command=self.randomize_tasks).pack(side="right", padx=10)
-        ctk.CTkButton(algo_frame, text="Sort", command=self.sort_and_display).pack(side="right", padx=10)
+        randomize_btn = ctk.CTkButton(
+            algo_frame,
+            fg_color="#536D7F",
+            hover_color="#3F5C6B",
+            text="Randomize Tasks",
+            text_color="white",
+            command=self.randomize_tasks
+        )
+        randomize_btn.pack(side="right", padx=10)
+        randomize_btn.bind("<Enter>", self)
+        randomize_btn.bind("<Leave>", self)
+
+        sort_btn = ctk.CTkButton(
+            algo_frame,
+            fg_color="#536D7F",
+            hover_color="#3F5C6B",
+            text="Sort",
+            text_color="white",
+            command=self.sort_and_display
+        )
+        sort_btn.pack(side="right", padx=10)
+        sort_btn.bind("<Enter>", self)
+        sort_btn.bind("<Leave>", self)
 
         # ===== Table Container =====
-        self.table_container = ctk.CTkFrame(self, fg_color="green", corner_radius=15)
+
+        self.table_container = ctk.CTkFrame(self, fg_color="white", corner_radius=15)
         self.table_container.pack(fill="both", expand=True)
 
         # Header row
-        self.header_frame = ctk.CTkFrame(self.table_container, fg_color="red")
+        self.header_frame = ctk.CTkFrame(self.table_container, fg_color="#97A7B2")
         self.header_frame.pack(fill="x")
         for col, text in enumerate(self.headers):
             label = ctk.CTkLabel(
                 self.header_frame,
                 text=text,
                 font=("Arial", 16, "bold"),
-                fg_color="blue",
+                fg_color="transparent",
                 corner_radius=10,
                 text_color="white",
                 wraplength=self.column_widths[col]-10,
@@ -79,7 +110,7 @@ class TasksPage(ctk.CTkFrame):
             widget.destroy()
 
         for row_idx, task in enumerate(tasks):
-            row_color = "#433DFA" if row_idx % 2 == 0 else "#7576FF"
+            row_color = "#556571" if row_idx % 2 == 0 else "#758D9E"
             row_frame = ctk.CTkFrame(self.scroll_frame, fg_color=row_color)
             row_frame.pack(fill="x", padx=0, pady=1)
 
@@ -90,9 +121,14 @@ class TasksPage(ctk.CTkFrame):
                         row_frame,
                         text="⚙",
                         width=40,
+                        fg_color="#356BFF",
+                        hover_color="#1E4CAF",
+                        text_color="#FFFFFF",
                         command=lambda t=task: self.open_task_actions(t)
                     )
                     action_btn.grid(row=0, column=col_idx, padx=5, pady=5)
+                    action_btn.bind("<Enter>", self)
+                    action_btn.bind("<Leave>", self)
                     row_frame.grid_columnconfigure(col_idx, minsize=self.column_widths[col_idx], weight=1)
                     continue
 
@@ -127,30 +163,30 @@ class TasksPage(ctk.CTkFrame):
 
     # ===== Create Task Popup =====
     def open_create_task_popup(self):
-        popup = ctk.CTkToplevel(self)
+        popup = ctk.CTkToplevel(self, fg_color="#CDC6CE")
         popup.title("Create Task")
         popup.geometry("400x500")
         popup.grab_set()
 
-        ctk.CTkLabel(popup, text="Task").pack(pady=(20,5))
-        task_entry = ctk.CTkEntry(popup, width=350)
+        ctk.CTkLabel(popup, text="Task", text_color="#17313E").pack(pady=(20,5))
+        task_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
         task_entry.pack()
 
-        ctk.CTkLabel(popup, text="Priority").pack(pady=(10,5))
+        ctk.CTkLabel(popup, text="Priority", text_color="#17313E").pack(pady=(10,5))
         priority_var = ctk.StringVar(value="Medium")
-        priority_dropdown = ctk.CTkOptionMenu(popup, values=["High","Medium","Low"], variable=priority_var, width=350)
+        priority_dropdown = ctk.CTkOptionMenu(popup, fg_color="#8394A0", values=["High","Medium","Low"], variable=priority_var, width=350)
         priority_dropdown.pack()
 
-        ctk.CTkLabel(popup, text="Due Date").pack(pady=(10,5))
-        due_date_entry = tkcalendar.DateEntry(popup, width=12, date_pattern='yyyy-mm-dd')
+        ctk.CTkLabel(popup, text="Due Date", text_color="#17313E").pack(pady=(10,5))
+        due_date_entry = tkcalendar.DateEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=12, date_pattern='yyyy-mm-dd')
         due_date_entry.pack()
 
-        ctk.CTkLabel(popup, text="Subject").pack(pady=(10,5))
-        subject_entry = ctk.CTkEntry(popup, width=350)
+        ctk.CTkLabel(popup, text="Subject", text_color="#17313E").pack(pady=(10,5))
+        subject_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
         subject_entry.pack()
 
-        ctk.CTkLabel(popup, text="Grade").pack(pady=(10,5))
-        grade_entry = ctk.CTkEntry(popup, width=350)
+        ctk.CTkLabel(popup, text="Grade", text_color="#17313E").pack(pady=(10,5))
+        grade_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
         grade_entry.pack()
 
         def add_task():
@@ -169,11 +205,11 @@ class TasksPage(ctk.CTkFrame):
             self.sort_and_display()
             popup.destroy()
 
-        ctk.CTkButton(popup, text="Add Task", command=add_task).pack(pady=20)
+        ctk.CTkButton(popup, fg_color="#F8EAFA", hover_color="#97A7B2", text="Add Task", text_color="#3E5C6B", command=add_task).pack(pady=20)
 
     # ===== Task Actions Popup =====
     def open_task_actions(self, task):
-        popup = ctk.CTkToplevel(self)
+        popup = ctk.CTkToplevel(self, fg_color="#CDC6CE")
         popup.title("Task Options")
         popup.geometry("300x250")
         popup.grab_set()
@@ -185,40 +221,40 @@ class TasksPage(ctk.CTkFrame):
             self.sort_and_display()
             popup.destroy()
 
-        ctk.CTkButton(popup, text="✅ Mark Complete", command=complete_task).pack(pady=10)
-        ctk.CTkButton(popup, text="✏ Edit Task", command=lambda: [popup.destroy(), self.open_edit_task_popup(task)]).pack(pady=10)
+        ctk.CTkButton(popup, fg_color="#F8EAFA", hover_color="#97A7B2", text="✅ Mark Complete", text_color="#3E5C6B", command=complete_task).pack(pady=10)
+        ctk.CTkButton(popup, fg_color="#F8EAFA", hover_color="#97A7B2", text="✏ Edit Task", text_color="#3E5C6B", command=lambda: [popup.destroy(), self.open_edit_task_popup(task)]).pack(pady=10)
 
         def delete_task():
             self.tasks.remove(task)
             self.sort_and_display()
             popup.destroy()
 
-        ctk.CTkButton(popup, text="🗑 Delete Task", fg_color="red", command=delete_task).pack(pady=10)
+        ctk.CTkButton(popup, text="🗑 Delete Task", fg_color="red", hover_color="#D20404", command=delete_task).pack(pady=10)
 
     # ===== Edit Task Popup =====
     def open_edit_task_popup(self, task):
-        popup = ctk.CTkToplevel(self)
+        popup = ctk.CTkToplevel(self, fg_color="#CDC6CE")
         popup.title("Edit Task")
         popup.geometry("400x500")
         popup.grab_set()
 
-        ctk.CTkLabel(popup, text="Task").pack(pady=(20,5))
-        task_entry = ctk.CTkEntry(popup, width=350)
+        ctk.CTkLabel(popup, text="Task", text_color="#17313E").pack(pady=(20,5))
+        task_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
         task_entry.insert(0, task[0])
         task_entry.pack()
 
-        ctk.CTkLabel(popup, text="Priority").pack(pady=(10,5))
+        ctk.CTkLabel(popup, text="Priority", text_color="#17313E").pack(pady=(10,5))
         priority_var = ctk.StringVar(value=task[1])
-        priority_dropdown = ctk.CTkOptionMenu(popup, values=["High","Medium","Low"], variable=priority_var)
+        priority_dropdown = ctk.CTkOptionMenu(popup, fg_color="#8394A0", values=["High","Medium","Low"], variable=priority_var)
         priority_dropdown.pack()
 
-        ctk.CTkLabel(popup, text="Subject").pack(pady=(10,5))
-        subject_entry = ctk.CTkEntry(popup, width=350)
+        ctk.CTkLabel(popup, text="Subject", text_color="#17313E").pack(pady=(10,5))
+        subject_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
         subject_entry.insert(0, task[3])
         subject_entry.pack()
 
-        ctk.CTkLabel(popup, text="Grade").pack(pady=(10,5))
-        grade_entry = ctk.CTkEntry(popup, width=350)
+        ctk.CTkLabel(popup, text="Grade", text_color="#17313E").pack(pady=(10,5))
+        grade_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
         grade_entry.insert(0, str(task[4]))
         grade_entry.pack()
 
@@ -233,7 +269,7 @@ class TasksPage(ctk.CTkFrame):
             self.sort_and_display()
             popup.destroy()
 
-        ctk.CTkButton(popup, text="Save Changes", command=save_changes).pack(pady=20)
+        ctk.CTkButton(popup, fg_color="#F8EAFA", hover_color="#97A7B2", text="Save Changes", text_color="#3E5C6B", command=save_changes).pack(pady=20)
 
     # ===== Randomizer =====
     def randomize_tasks(self):
