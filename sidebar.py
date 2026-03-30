@@ -18,10 +18,10 @@ class Sidebar(ctk.CTkFrame):
             command=lambda: show_page("TasksPage")
         ).pack(pady=10, padx=20, fill="x")
 
-        ctk.CTkButton(
-            self, fg_color="#F8EAFA", hover_color="#97A7B2", text="Calendar", text_color="#3E5C6B",
-            command=lambda: show_page("CalendarPage")
-        ).pack(pady=10, padx=20, fill="x")
+        # ctk.CTkButton(
+        #     self, fg_color="#F8EAFA", hover_color="#97A7B2", text="Calendar", text_color="#3E5C6B",
+        #     command=lambda: show_page("CalendarPage")
+        # ).pack(pady=10, padx=20, fill="x")
 
         ctk.CTkButton(
             self, fg_color="#F8EAFA", hover_color="#97A7B2", text="Settings", text_color="#3E5C6B",

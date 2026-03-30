@@ -169,7 +169,7 @@ class TasksPage(ctk.CTkFrame):
         popup.grab_set()
 
         ctk.CTkLabel(popup, text="Task", text_color="#17313E").pack(pady=(20,5))
-        task_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
+        task_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", text_color="black", width=350)
         task_entry.pack()
 
         ctk.CTkLabel(popup, text="Priority", text_color="#17313E").pack(pady=(10,5))
@@ -182,11 +182,11 @@ class TasksPage(ctk.CTkFrame):
         due_date_entry.pack()
 
         ctk.CTkLabel(popup, text="Subject", text_color="#17313E").pack(pady=(10,5))
-        subject_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
+        subject_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", text_color="black", width=350)
         subject_entry.pack()
 
         ctk.CTkLabel(popup, text="Grade", text_color="#17313E").pack(pady=(10,5))
-        grade_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
+        grade_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", text_color="black", width=350)
         grade_entry.pack()
 
         def add_task():
@@ -239,7 +239,7 @@ class TasksPage(ctk.CTkFrame):
         popup.grab_set()
 
         ctk.CTkLabel(popup, text="Task", text_color="#17313E").pack(pady=(20,5))
-        task_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
+        task_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", text_color="black", width=350)
         task_entry.insert(0, task[0])
         task_entry.pack()
 
@@ -249,12 +249,12 @@ class TasksPage(ctk.CTkFrame):
         priority_dropdown.pack()
 
         ctk.CTkLabel(popup, text="Subject", text_color="#17313E").pack(pady=(10,5))
-        subject_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
+        subject_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", text_color="black", width=350)
         subject_entry.insert(0, task[3])
         subject_entry.pack()
 
         ctk.CTkLabel(popup, text="Grade", text_color="#17313E").pack(pady=(10,5))
-        grade_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", width=350)
+        grade_entry = ctk.CTkEntry(popup, fg_color="#E7E7E7", border_color="#8394A0", text_color="black", width=350)
         grade_entry.insert(0, str(task[4]))
         grade_entry.pack()
 
