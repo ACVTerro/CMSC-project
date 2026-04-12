@@ -1,4 +1,4 @@
-import customtkinter as ctk
+"""import customtkinter as ctk
 from datetime import datetime
 
 class DashboardPage(ctk.CTkFrame):
@@ -14,32 +14,24 @@ class DashboardPage(ctk.CTkFrame):
         header_label = ctk.CTkLabel(header_frame, text="📊 Dashboard", font=("Arial", 28, "bold"), text_color="white")
         header_label.place(relx=0.05, rely=0.5, anchor="w")
 
-        # ===== Summary Cards + Dropdown Row =====
-        top_row = ctk.CTkFrame(self, fg_color="transparent")
-        top_row.pack(pady=10, padx=20, fill="x")
-
-        # LEFT SIDE LABELS
-        card_container = ctk.CTkFrame(top_row, fg_color="transparent")
-        card_container.pack(side="left")
+        # ===== Summary Cards =====
+        card_container = ctk.CTkFrame(self, fg_color="transparent")
+        card_container.pack(pady=10, padx=20, fill="x")
 
         self.total_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
         self.total_tasks_label.grid(row=0, column=0, padx=10, pady=10)
-
         self.completed_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
         self.completed_tasks_label.grid(row=0, column=1, padx=10, pady=10)
-
         self.missed_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
         self.missed_tasks_label.grid(row=0, column=2, padx=10, pady=10)
-
         self.pending_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
         self.pending_tasks_label.grid(row=0, column=3, padx=10, pady=10)
 
-        # RIGHT SIDE DROPDOWN
-        dropdown_frame = ctk.CTkFrame(top_row, fg_color="transparent")
-        dropdown_frame.pack(side="right")
+        # ===== Dropdown for table type =====
+        dropdown_frame = ctk.CTkFrame(self, fg_color="transparent")
+        dropdown_frame.pack(pady=5)
 
         self.table_type_var = ctk.StringVar(value="Completed Tasks")
-
         table_dropdown = ctk.CTkOptionMenu(
             dropdown_frame,
             values=["Completed Tasks", "Missed Tasks"],
@@ -105,7 +97,7 @@ class DashboardPage(ctk.CTkFrame):
         # Filter tasks based on dropdown
         if self.table_type_var.get() == "Completed Tasks":
             display_tasks = [t for t in tasks if t[5] == "Completed"]
-        else:
+        else:  # Missed Tasks
             display_tasks = [t for t in tasks if datetime.strptime(t[2], "%Y-%m-%d") < today and t[5] != "Completed"]
 
         for row_idx, task in enumerate(display_tasks):
@@ -115,6 +107,7 @@ class DashboardPage(ctk.CTkFrame):
 
             for col_idx in range(len(self.headers)):
                 if self.headers[col_idx] == "Action":
+                    # Completed: delete button
                     if task[5] == "Completed":
                         action_btn = ctk.CTkButton(
                             row_frame,
@@ -125,6 +118,7 @@ class DashboardPage(ctk.CTkFrame):
                             text_color="white",
                             command=lambda t=task: self.delete_task(t)
                         )
+                    # Missed: mark complete
                     else:
                         action_btn = ctk.CTkButton(
                             row_frame,
@@ -139,19 +133,13 @@ class DashboardPage(ctk.CTkFrame):
                     row_frame.grid_columnconfigure(col_idx, minsize=self.column_widths[col_idx], weight=1)
                     continue
 
+                # Value column
                 if self.headers[col_idx] == "Status":
                     value = task[5]
                 else:
                     value = task[col_idx]
-
-                label = ctk.CTkLabel(
-                    row_frame,
-                    text=str(value),
-                    fg_color=row_color,
-                    wraplength=self.column_widths[col_idx]-10,
-                    justify="center",
-                    anchor="center"
-                )
+                label = ctk.CTkLabel(row_frame, text=str(value), fg_color=row_color,
+                                     wraplength=self.column_widths[col_idx]-10, justify="center", anchor="center")
                 label.grid(row=0, column=col_idx, sticky="nsew", padx=1, pady=1)
                 row_frame.grid_columnconfigure(col_idx, minsize=self.column_widths[col_idx], weight=1)
 
@@ -165,4 +153,4 @@ class DashboardPage(ctk.CTkFrame):
         if task in self.controller.tasks:
             self.controller.tasks.remove(task)
         self.update_labels()
-        self.update_table()
+        self.update_table()"""

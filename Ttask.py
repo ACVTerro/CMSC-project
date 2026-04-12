@@ -1,4 +1,4 @@
-import customtkinter as ctk
+"""import customtkinter as ctk
 import tkcalendar
 from datetime import datetime
 import random
@@ -108,8 +108,7 @@ class TasksPage(ctk.CTkFrame):
         for task in tasks:
             due_date_obj = datetime.strptime(task[2], "%Y-%m-%d").date()
 
-            # ✅ FIXED LOGIC (only change)
-            if task[5] != "Completed" and due_date_obj < today:
+            if task[5] != "Completed" and due_date_obj <= today:
                 task[5] = "Missed"
 
             if task[5] in ["Missed", "Completed"]:
@@ -174,9 +173,7 @@ class TasksPage(ctk.CTkFrame):
 
             due_date = due_date_entry.get_date()
             today = datetime.today().date()
-
-            # ✅ FIXED LOGIC
-            status = "Pending" if due_date >= today else "Missed"
+            status = "Pending" if due_date > today else "Missed"
 
             new_task = [
                 task_entry.get(),
@@ -261,6 +258,7 @@ class TasksPage(ctk.CTkFrame):
         due_date_entry.set_date(task[2])
 
         subject_entry = self.create_labeled_entry(popup, "Subject", task[3])
+
         grade_entry = self.create_labeled_entry(popup, "Grade", str(task[4]))
 
         def save_changes():
@@ -279,9 +277,8 @@ class TasksPage(ctk.CTkFrame):
 
             today = datetime.today().date()
 
-            # ✅ FIXED LOGIC
             if task[5] != "Completed":
-                if new_due_date < today:
+                if new_due_date <= today:
                     task[5] = "Missed"
                 else:
                     task[5] = "Pending"
@@ -305,10 +302,9 @@ class TasksPage(ctk.CTkFrame):
         today = datetime.today().date()
         algo = self.algo_var.get()
 
-        # ✅ FIXED LOGIC
         for t in tasks:
             due_date_obj = datetime.strptime(t[2], "%Y-%m-%d").date()
-            if t[5] != "Completed" and due_date_obj < today:
+            if t[5] != "Completed" and due_date_obj <= today:
                 t[5] = "Missed"
 
         if algo == "Greedy":
@@ -361,4 +357,4 @@ class TasksPage(ctk.CTkFrame):
         if hasattr(self.app, "pages") and "DashboardPage" in self.app.pages:
             dashboard = self.app.pages["DashboardPage"]
             if hasattr(dashboard, "update_labels"):
-                dashboard.update_labels()
+                dashboard.update_labels()"""
