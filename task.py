@@ -306,12 +306,13 @@ class TasksPage(ctk.CTkFrame):
         today = datetime.today().date()
         algo = self.algo_var.get()
 
-        # FIXED: consistent status sync
+        # ===== STATUS SYNC =====
         for t in tasks:
             if t[5] != "Completed":
                 due_date_obj = datetime.strptime(t[2], "%Y-%m-%d").date()
                 t[5] = "Missed" if due_date_obj < today else "Pending"
 
+        # ===== SORTING =====
         if algo == "Greedy":
             tasks.sort(key=lambda t: (
                 0 if t[5] == "Completed" else 1,
@@ -320,15 +321,75 @@ class TasksPage(ctk.CTkFrame):
                 datetime.strptime(t[2], "%Y-%m-%d"),
                 -t[4]
             ))
+            self.app.tasks = tasks
 
         elif algo == "Insertion":
-            tasks = self.insertion_sort(tasks)
+            self.app.tasks = self.insertion_sort(tasks)
 
         elif algo == "Bubble":
-            tasks = self.bubble_sort(tasks)
+            self.app.tasks = self.bubble_sort(tasks)
 
-        self.create_rows(tasks)
+        # ===== RENDER =====
+        self.create_rows(self.app.tasks)
         self.update_dashboard()
+    def insertion_sort(self, tasks):
+        tasks = tasks[:]
+
+        for i in range(1, len(tasks)):
+            key = tasks[i]
+            j = i - 1
+
+            while j >= 0 and self.compare_tasks(tasks[j], key) > 0:
+                tasks[j + 1] = tasks[j]
+                j -= 1
+
+            tasks[j + 1] = key
+
+        return tasks
+
+    def bubble_sort(self, tasks):
+        tasks = tasks[:]
+        n = len(tasks)
+
+        for i in range(n):
+            swapped = False
+
+            for j in range(0, n - i - 1):
+                if self.compare_tasks(tasks[j], tasks[j + 1]) > 0:
+                    tasks[j], tasks[j + 1] = tasks[j + 1], tasks[j]
+                    swapped = True
+
+            if not swapped:
+                break
+
+        return tasks
+
+    def compare_tasks(self, a, b):
+        today = datetime.today().date()
+
+        def status_rank(t):
+            if t[5] == "Completed":
+                return 0
+            due = datetime.strptime(t[2], "%Y-%m-%d").date()
+            return 2 if due < today else 1  # Missed > Pending
+
+        # 1. Status priority
+        if status_rank(a) != status_rank(b):
+            return status_rank(a) - status_rank(b)
+
+        # 2. Priority
+        if self.PRIORITY_ORDER[a[1]] != self.PRIORITY_ORDER[b[1]]:
+            return self.PRIORITY_ORDER[a[1]] - self.PRIORITY_ORDER[b[1]]
+
+        # 3. Due date
+        date_a = datetime.strptime(a[2], "%Y-%m-%d")
+        date_b = datetime.strptime(b[2], "%Y-%m-%d")
+
+        if date_a != date_b:
+            return (date_a > date_b) - (date_a < date_b)
+
+        # 4. Grade
+        return b[4] - a[4]
 
     # ===== Utility Methods =====
     def create_labeled_entry(self, parent, label_text, default=""):
@@ -355,7 +416,7 @@ class TasksPage(ctk.CTkFrame):
     def randomize_tasks(self):
         if len(self.app.tasks) > 1:
             random.shuffle(self.app.tasks)
-            self.sort_and_display()
+            self.create_rows(self.app.tasks)
 
     # ===== Dashboard Update =====
     def update_dashboard(self):

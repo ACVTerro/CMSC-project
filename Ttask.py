@@ -108,8 +108,9 @@ class TasksPage(ctk.CTkFrame):
         for task in tasks:
             due_date_obj = datetime.strptime(task[2], "%Y-%m-%d").date()
 
-            if task[5] != "Completed" and due_date_obj <= today:
-                task[5] = "Missed"
+            # FIXED: consistent status logic
+            if task[5] != "Completed":
+                task[5] = "Missed" if due_date_obj < today else "Pending"
 
             if task[5] in ["Missed", "Completed"]:
                 continue
@@ -172,8 +173,9 @@ class TasksPage(ctk.CTkFrame):
                 grade = 0
 
             due_date = due_date_entry.get_date()
-            today = datetime.today().date()
-            status = "Pending" if due_date > today else "Missed"
+
+            # FIXED: always start as Pending
+            status = "Pending"
 
             new_task = [
                 task_entry.get(),
@@ -218,7 +220,14 @@ class TasksPage(ctk.CTkFrame):
             self.update_dashboard()
             popup.destroy()
 
-        ctk.CTkButton(popup, fg_color="#F8EAFA", hover_color="#97A7B2", text="✅ Mark Complete", text_color="#3E5C6B", command=complete_task).pack(pady=10)
+        ctk.CTkButton(
+            popup,
+            fg_color="#F8EAFA",
+            hover_color="#97A7B2",
+            text="✅ Mark Complete",
+            text_color="#3E5C6B",
+            command=complete_task
+        ).pack(pady=10)
 
         ctk.CTkButton(
             popup,
@@ -258,7 +267,6 @@ class TasksPage(ctk.CTkFrame):
         due_date_entry.set_date(task[2])
 
         subject_entry = self.create_labeled_entry(popup, "Subject", task[3])
-
         grade_entry = self.create_labeled_entry(popup, "Grade", str(task[4]))
 
         def save_changes():
@@ -275,13 +283,9 @@ class TasksPage(ctk.CTkFrame):
             except:
                 task[4] = 0
 
-            today = datetime.today().date()
-
+            # FIXED: consistent logic only
             if task[5] != "Completed":
-                if new_due_date <= today:
-                    task[5] = "Missed"
-                else:
-                    task[5] = "Pending"
+                task[5] = "Pending"
 
             self.sort_and_display()
             self.update_dashboard()
@@ -296,16 +300,17 @@ class TasksPage(ctk.CTkFrame):
             command=save_changes
         ).pack(pady=20)
 
-    # ===== Sorting and Display =====
+    # ===== Sorting =====
     def sort_and_display(self):
         tasks = self.app.tasks
         today = datetime.today().date()
         algo = self.algo_var.get()
 
+        # FIXED: consistent status sync
         for t in tasks:
-            due_date_obj = datetime.strptime(t[2], "%Y-%m-%d").date()
-            if t[5] != "Completed" and due_date_obj <= today:
-                t[5] = "Missed"
+            if t[5] != "Completed":
+                due_date_obj = datetime.strptime(t[2], "%Y-%m-%d").date()
+                t[5] = "Missed" if due_date_obj < today else "Pending"
 
         if algo == "Greedy":
             tasks.sort(key=lambda t: (
@@ -350,7 +355,7 @@ class TasksPage(ctk.CTkFrame):
     def randomize_tasks(self):
         if len(self.app.tasks) > 1:
             random.shuffle(self.app.tasks)
-            self.sort_and_display()
+            self.create_rows(self.app.tasks)
 
     # ===== Dashboard Update =====
     def update_dashboard(self):

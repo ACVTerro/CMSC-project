@@ -19,24 +19,60 @@ class DashboardPage(ctk.CTkFrame):
         )
         header_label.place(relx=0.05, rely=0.5, anchor="w")
 
-        # ===== Summary Cards + Dropdown Row =====
+        # ===== Summary Row =====
         top_row = ctk.CTkFrame(self, fg_color="transparent")
         top_row.pack(pady=10, padx=20, fill="x")
 
         card_container = ctk.CTkFrame(top_row, fg_color="transparent")
         card_container.pack(side="left")
 
-        self.total_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
-        self.total_tasks_label.grid(row=0, column=0, padx=10, pady=10)
+        # ===== TOTAL TASKS CARD =====
+        total_card = ctk.CTkFrame(card_container, fg_color="#DDE6ED", corner_radius=10)
+        total_card.grid(row=0, column=0, padx=10, pady=10)
 
-        self.completed_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
-        self.completed_tasks_label.grid(row=0, column=1, padx=10, pady=10)
+        self.total_tasks_label = ctk.CTkLabel(
+            total_card,
+            text="",
+            font=("Arial", 16, "bold"),
+            text_color="#3E5C6B"
+        )
+        self.total_tasks_label.pack(padx=15, pady=10)
 
-        self.missed_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
-        self.missed_tasks_label.grid(row=0, column=2, padx=10, pady=10)
+        # ===== COMPLETED TASKS CARD =====
+        completed_card = ctk.CTkFrame(card_container, fg_color="#DDE6ED", corner_radius=10)
+        completed_card.grid(row=0, column=1, padx=10, pady=10)
 
-        self.pending_tasks_label = ctk.CTkLabel(card_container, text="", font=("Arial", 16, "bold"), text_color="#3E5C6B")
-        self.pending_tasks_label.grid(row=0, column=3, padx=10, pady=10)
+        self.completed_tasks_label = ctk.CTkLabel(
+            completed_card,
+            text="",
+            font=("Arial", 16, "bold"),
+            text_color="#3E5C6B"
+        )
+        self.completed_tasks_label.pack(padx=15, pady=10)
+
+        # ===== MISSED TASKS CARD =====
+        missed_card = ctk.CTkFrame(card_container, fg_color="#DDE6ED", corner_radius=10)
+        missed_card.grid(row=0, column=2, padx=10, pady=10)
+
+        self.missed_tasks_label = ctk.CTkLabel(
+            missed_card,
+            text="",
+            font=("Arial", 16, "bold"),
+            text_color="#3E5C6B"
+        )
+        self.missed_tasks_label.pack(padx=15, pady=10)
+
+        # ===== PENDING TASKS CARD =====
+        pending_card = ctk.CTkFrame(card_container, fg_color="#DDE6ED", corner_radius=10)
+        pending_card.grid(row=0, column=3, padx=10, pady=10)
+
+        self.pending_tasks_label = ctk.CTkLabel(
+            pending_card,
+            text="",
+            font=("Arial", 16, "bold"),
+            text_color="#3E5C6B"
+        )
+        self.pending_tasks_label.pack(padx=15, pady=10)
 
         # ===== Dropdown =====
         dropdown_frame = ctk.CTkFrame(top_row, fg_color="transparent")
@@ -69,7 +105,7 @@ class DashboardPage(ctk.CTkFrame):
                 font=("Arial", 16, "bold"),
                 fg_color="transparent",
                 text_color="white",
-                wraplength=self.column_widths[col]-10,
+                wraplength=self.column_widths[col] - 10,
                 justify="center",
                 anchor="center"
             )
@@ -82,7 +118,7 @@ class DashboardPage(ctk.CTkFrame):
         self.update_labels()
         self.update_table()
 
-    # ===== FIXED: Update Labels =====
+    # ===== Update Labels =====
     def update_labels(self):
         tasks = getattr(self.controller, "tasks", [])
 
@@ -96,14 +132,13 @@ class DashboardPage(ctk.CTkFrame):
         self.missed_tasks_label.configure(text=f"Missed: {missed}")
         self.pending_tasks_label.configure(text=f"Pending: {pending}")
 
-    # ===== FIXED: Update Table =====
+    # ===== Update Table =====
     def update_table(self):
         for widget in self.scroll_frame.winfo_children():
             widget.destroy()
 
         tasks = getattr(self.controller, "tasks", [])
 
-        # ONLY trust status (NO date recalculation here)
         if self.table_type_var.get() == "Completed Tasks":
             display_tasks = [t for t in tasks if t[5] == "Completed"]
         else:
@@ -147,7 +182,7 @@ class DashboardPage(ctk.CTkFrame):
                     row_frame,
                     text=str(value),
                     fg_color=row_color,
-                    wraplength=self.column_widths[col_idx]-10,
+                    wraplength=self.column_widths[col_idx] - 10,
                     justify="center",
                     anchor="center"
                 )

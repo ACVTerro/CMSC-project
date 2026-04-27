@@ -1,4 +1,4 @@
-import customtkinter as ctk
+"""import customtkinter as ctk
 
 
 class Sidebar(ctk.CTkFrame):
@@ -57,4 +57,4 @@ class Sidebar(ctk.CTkFrame):
 
         ctk.CTkButton(btn_frame, fg_color="#F8EAFA", hover_color="#97A7B2", text="Yes", text_color="#3E5C6B", command=do_logout).pack(side="left", padx=20, expand=True)
         # No button
-        ctk.CTkButton(btn_frame, fg_color="#F8EAFA", hover_color="#97A7B2", text="No", text_color="#3E5C6B", command=popup.destroy).pack(side="right", padx=20, expand=True)
+        ctk.CTkButton(btn_frame, fg_color="#F8EAFA", hover_color="#97A7B2", text="No", text_color="#3E5C6B", command=popup.destroy).pack(side="right", padx=20, expand=True)"""
